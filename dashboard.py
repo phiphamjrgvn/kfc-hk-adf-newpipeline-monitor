@@ -48,27 +48,21 @@ with tab1:
     # -------------------------
     # CHART 1 — DAP (line) + NEW (bar)
     # -------------------------
-    st.subheader("🔵 Total Rows per Day (DAP Line + New Pipeline Bar)")
+    st.subheader("📊 Total Final Rows per Day (Pipeline Output)")
 
-    base = alt.Chart(df_summary).encode(
-        x=alt.X("date:N", sort=None, title="Date")
+    chart1 = (
+        alt.Chart(df_summary)
+        .mark_bar(color="#ff7f0e", opacity=0.8)
+        .encode(
+            x=alt.X("date:N", sort=None, title="Date"),
+            y=alt.Y("final_df:Q", title="Final Pipeline Rows"),
+            tooltip=["date", "final_df"]
+        )
+        .properties(width="container", height=350)
     )
-
-    bar_new = base.mark_bar(color="#ff7f0e", opacity=0.7).encode(
-        y=alt.Y("new_total_items:Q", title="Row Count (New Pipeline)"),
-        tooltip=["date", "new_total_items"]
-    )
-
-    line_dap = base.mark_line(color="#1f77b4", strokeWidth=3, point=True).encode(
-        y=alt.Y("dap_total_items:Q", title="Row Count (DAP)"),
-        tooltip=["date", "dap_total_items"]
-    )
-
-    chart1 = alt.layer(bar_new, line_dap).resolve_scale(
-        y='independent'
-    ).properties(width="container", height=350)
 
     st.altair_chart(chart1, use_container_width=True)
+
 
 
 
