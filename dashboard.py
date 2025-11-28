@@ -118,8 +118,11 @@ with tab1:
 with tab2:
     st.header("🔍 Diff Items by Day")
 
-    unique_days = sorted(detail["date"].unique().to_list())
-    selected_day = st.selectbox("Select date:", unique_days)
+    # Sort ngày DESC để ngày mới nhất đứng đầu
+    unique_days = sorted(detail["date"].unique().to_list(), reverse=True)
+
+    # Default -> ngày mới nhất
+    selected_day = st.selectbox("Select date:", unique_days, index=0)
 
     filtered = detail.filter(pl.col("date") == selected_day)
 
