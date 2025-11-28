@@ -81,7 +81,7 @@ with tab1:
     )
 
     line_dap2 = base2.mark_line(color="#1f77b4", strokeWidth=3, point=True).encode(
-        y=alt.Y("dap_total_items:Q", title="Distinct Items (New Pipeline) (DAP)"),
+        y=alt.Y("dap_total_items:Q", title="Distinct Items (DAP)"),
         tooltip=["date", "dap_total_items"]
     )
 
