@@ -112,6 +112,9 @@ with tab1:
 # =======================================================
 # TAB 2 — DETAIL BY DAY
 # =======================================================
+# =======================================================
+# TAB 2 — DETAIL BY DAY
+# =======================================================
 with tab2:
     st.header("🔍 Diff Items by Day")
 
@@ -119,14 +122,28 @@ with tab2:
     selected_day = st.selectbox("Select date:", unique_days)
 
     filtered = detail.filter(pl.col("date") == selected_day)
+
+    # Convert to pandas
     df_filtered = filtered.to_pandas()
 
-    st.write(f"🔢 Total products on {selected_day}: **{df_filtered.shape[0]}**")
+    # Sort theo diff DESC
+    df_filtered = df_filtered.sort_values("diff", ascending=False)
 
+    # Total items
+    total_items = df_filtered.shape[0]
+
+    # Total diff items ≠ 0
+    total_diff_items = df_filtered[df_filtered["diff"] != 0].shape[0]
+
+    st.write(f"🔢 Total products on {selected_day}: **{total_items}**")
+    st.write(f"❗ Total diff items: **{total_diff_items}**")
+
+    # Highlight diff column
     def color_diff(val):
         return (
             "background-color: #b6f2bb" if val == 0 else "background-color: #f2b6b6"
         )
 
     styled = df_filtered.style.applymap(color_diff, subset=["diff"])
+
     st.dataframe(styled, use_container_width=True)
